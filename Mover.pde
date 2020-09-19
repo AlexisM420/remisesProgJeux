@@ -205,4 +205,9 @@ class Mover extends GraphicObject {
     msgCount++;
     
   }
+  
+  Circle moverBoundingBox(){
+    Circle c = new Circle(this.location.x, this.location.y, r);
+    return c;
+  }
 }
