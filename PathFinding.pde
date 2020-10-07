@@ -24,7 +24,6 @@ void draw () {
 }
 
 void update (float delta) {
-  
 }
 
 void display () {
@@ -43,13 +42,25 @@ void initMap () {
   
   worldMap.setBaseColor(baseColor);
   
-  worldMap.setStartCell(mapCols / 2 - 5, 3);
-  worldMap.setEndCell(mapCols - 1, mapRows - 1);
+  do
+  {
+    worldMap.setStartCell((int)random(0, mapCols), (int)random(0, mapRows));
+  }while(worldMap.start.isWalkable == false);
   
+  do{
+    worldMap.setEndCell((int)random(0, mapCols),(int)random(0, mapRows));
+  }while(worldMap.end.isWalkable == false);
+  
+   //<>//
+  
+  // Mise à jour de tous les H des cellules
   worldMap.updateHs();
   
-  worldMap.makeWall (mapCols / 2, 0, 15, true);
-  worldMap.makeWall (mapCols / 2 - 9, 10, 10, false);
+  for(int i=0; i < (int)random(4, 12); i++)
+  {
+  worldMap.makeWall ((int)random(0, mapRows), (int)random(0,mapCols), (int)random(5,65), true);
+  worldMap.makeWall ((int)random(0, mapRows), (int)random(0,mapCols), (int)random(5,65), false);
+  }
     
   worldMap.generateNeighbourhood(); //<>//
       

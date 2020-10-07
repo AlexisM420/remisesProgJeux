@@ -57,13 +57,13 @@ class NodeMap extends Matrix {
     
     if (start != null) {
       start.isStart = false;
-      start.setFillColor(baseColor);
+      start.setFillColor(color (200, 200, 0));
     } 
     
     start = (Node)cells.get(j).get(i);
     start.isStart = true;
     
-    start.setFillColor(color (127, 0, 127));
+    start.setFillColor(color (200, 200, 0));
   }
   
   /*
@@ -73,13 +73,13 @@ class NodeMap extends Matrix {
     
     if (end != null) {
       end.isEnd = false;
-      end.setFillColor(baseColor);
+      end.setFillColor(color (0, 200, 200));
     }
     
     end = (Node)cells.get(j).get(i);
     end.isEnd = true;
     
-    end.setFillColor(color (127, 127, 0));
+    end.setFillColor(color (0, 200, 200));
   }
   
   /** Met a jour les H des cellules
@@ -91,6 +91,7 @@ class NodeMap extends Matrix {
       for (int i = 0; i < cols; i++) {
         Node current = (Node)cells.get(j).get(i); 
         current.setH( calculateH(current));
+        current.setFillColor(color (0,127,0));
       }
     }
   }
@@ -156,6 +157,9 @@ class NodeMap extends Matrix {
   
   /**
     Génère les voisins de chaque Noeud
+    Pas la méthode la plus efficace car ça
+    prend beaucoup de mémoire.
+    Idéalement, on devrait le faire au besoin
   */
   void generateNeighbourhood() {
     for (int j = 0; j < rows; j++) {
@@ -172,17 +176,59 @@ class NodeMap extends Matrix {
   */
   void findAStarPath () {
     // TODO : Complétez ce code
+    // DONE
     
     if (start == null || end == null) {
       println ("No start and no end defined!");
       return;
+    } else {
+    ArrayList<Node> open_list= new ArrayList<Node>();
+    ArrayList<Node> closed_list= new ArrayList<Node>();
+    Node current_node = start;
+    open_list.add(start);
+
+    while(current_node != end && open_list.size() != 0 && end.parent == null)
+    {
+      current_node = getLowestCost(open_list);
+      if(current_node.equals(end))
+      {
+        continue;
+      }else
+      {
+        open_list.remove(current_node);
+        closed_list.add(current_node);
+        for(int i=0; i < current_node.neighbours.size(); i++)
+        {
+          Node nghb = current_node.neighbours.get(i);
+          if(nghb.isWalkable==false||closed_list.contains(nghb))
+          {
+            continue;
+          }
+          if(!open_list.contains(nghb))
+          {
+            open_list.add(nghb);
+            nghb.parent=current_node;
+          } 
+          else
+          {
+            int d = current_node.getG() +calculateCost(current_node,nghb);
+            if(d < nghb.getG())
+            {
+              nghb.parent=current_node;
+            }
+          } 
+            
+        }
+      }
+      
+      
     }
     
-    // TODO : Complétez ce code
     
-    // Appelez generatePath si le chemin est t
-    // TODO : Complétez ce code
-    
+
+    generatePath();
+    }
+   
   }
   
   /*
@@ -190,16 +236,47 @@ class NodeMap extends Matrix {
   */
   void generatePath () {
     // TODO : Complétez ce code
+    // DONE
+    path= new ArrayList<Node>();
+    Node par = end.parent;
+    while(par != start)
+    {
+      path.add(par);
+      par.setFillColor(color (127,127, 0));
+      par=par.parent;
+    }
   }
   
   /**
   * Cherche et retourne le noeud le moins couteux de la liste ouverte
   * @return Node le moins couteux de la liste ouverte
   */
-  private Node getLowestCost(ArrayList<Node> openList) {
+  private Node getLowestCost(ArrayList<Node> openList) {    //find best node
     // TODO : Complétez ce code
+    // DONE
+    Node best = openList.get(0);
+    Node cn = null;
     
-    return null;
+    for(int i=1; i < openList.size(); i++)
+    {
+      cn=openList.get(i);
+      if(cn.getH() < best.getH())
+      {
+        best = cn;
+      }
+      else if(cn.getH() == best.getH())
+      {
+        if(best.getF() > cn.getF())
+        {
+          best = cn;
+        }
+        else if(best.getH() == cn.getH() && best.getG() > cn.getG())
+        {
+          best = cn;
+        }
+      }
+    }
+    return best;
   }
   
 
@@ -212,8 +289,10 @@ class NodeMap extends Matrix {
   */
   private int calculateCost(Cell nodeA, Cell nodeB) {
     // TODO : Complétez ce code
-    
-    return 0;
+    int costX = Math.abs(nodeB.x-nodeA.x);
+    int costY = Math.abs(nodeB.y-nodeA.y);
+    int cost = (costX*costX) + (costY*costY);
+    return cost;
   }
   
   /**
@@ -222,8 +301,10 @@ class NodeMap extends Matrix {
   * @return la valeur H
   */
   private int calculateH(Cell node) {
-    // TODO : Complétez ce code
-    return 0;
+    
+    int d = int(dist(node.i, node.j, end.i, end.j));
+    
+    return d;
   }
   
   String toStringFGH() {
