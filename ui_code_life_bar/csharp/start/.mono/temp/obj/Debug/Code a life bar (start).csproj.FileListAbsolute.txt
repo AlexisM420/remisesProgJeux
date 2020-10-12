@@ -1,0 +1,6 @@
+C:\Users\micha\Desktop\_Prog jeux et multi\TP4Godot\ui_code_life_bar\csharp\start\.mono\temp\bin\Debug\Code a life bar (start).dll
+C:\Users\micha\Desktop\_Prog jeux et multi\TP4Godot\ui_code_life_bar\csharp\start\.mono\temp\bin\Debug\Code a life bar (start).pdb
+C:\Users\micha\Desktop\_Prog jeux et multi\TP4Godot\ui_code_life_bar\csharp\start\.mono\temp\obj\Debug\Code a life bar (start).csprojAssemblyReference.cache
+C:\Users\micha\Desktop\_Prog jeux et multi\TP4Godot\ui_code_life_bar\csharp\start\.mono\temp\obj\Debug\Code a life bar (start).csproj.CoreCompileInputs.cache
+C:\Users\micha\Desktop\_Prog jeux et multi\TP4Godot\ui_code_life_bar\csharp\start\.mono\temp\obj\Debug\Code a life bar (start).dll
+C:\Users\micha\Desktop\_Prog jeux et multi\TP4Godot\ui_code_life_bar\csharp\start\.mono\temp\obj\Debug\Code a life bar (start).pdb
